@@ -1,21 +1,43 @@
 // use prisma-8
 
+/// 用户账号。
 model User {
+  /// 主键，由数据库自增。
   id        Int                @id @default(autoincrement())
+  /// 登录邮箱，全表唯一。
   email     String             @unique
+  /// 用户名，可空。
   username  String?
+  /// 显示名称，可空。
   name      String?
+  /// 该用户发表的文章。由 Post.author 反向得到，数据库里没有这一列。
   posts     Post[]
+  /// 创建时间。插入行时写入当前时间。
   createdAt DateTime           @default(now()) @onCreate(now())
+  /// 最近一次更新时间。
   updatedAt temporal.UpdatedAt
+
+  /// 物理表名用小写。Navicat 用小写表名读取备注，对不上 "User" 时注释栏会是空的。
+  @@map("user")
 }
 
+/// 文章。
 model Post {
+  /// 主键，由数据库自增。
   id        Int                @id @default(autoincrement())
+  /// 文章标题。
   title     String
+  /// 文章正文，可空。
   content   String?
+  /// 作者，指向 User。
   author    User               @relation(fields: [authorId], references: [id])
+  /// 作者的用户 id，外键引用 User.id。
   authorId  Int
+  /// 创建时间。插入行时写入当前时间。
   createdAt DateTime           @default(now()) @onCreate(now())
+  /// 最近一次更新时间。
   updatedAt temporal.UpdatedAt
+
+  /// 物理表名用小写。Navicat 用小写表名读取备注，对不上 "Post" 时注释栏会是空的。
+  @@map("post")
 }

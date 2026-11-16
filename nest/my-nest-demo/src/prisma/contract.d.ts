@@ -23,9 +23,9 @@ import type {
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
-  StorageHashBase<'920a87b50729a867e21706dd0fa5c3739e273a84ed89eb2f3525633b2d6ef85c'>;
+  StorageHashBase<'366a2694b6ee4aa28c995a4608f4bef9bd64b90dbe530b8cdd060be7b756c047'>;
 export type ExecutionHash =
-  ExecutionHashBase<'0ff7f5c55037616d53a67c7c581c1178658b41c7a674a85dd59fc3b8f9dd8a49'>;
+  ExecutionHashBase<'7125bdcf63d80e9c87608f0271ad13900e24e05cab2a6119e1bfa3ce6301a5ba'>;
 export type ProfileHash =
   ProfileHashBase<'3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2'>;
 
@@ -356,7 +356,7 @@ type ContractBase = Omit<
         readonly kind: 'postgres-schema';
         readonly entries: {
           readonly table: {
-            readonly Post: {
+            readonly post: {
               columns: {
                 readonly authorId: {
                   readonly dataType: 'pg/int4';
@@ -406,8 +406,8 @@ type ContractBase = Omit<
               uniques: readonly [];
               indexes: readonly [
                 {
-                  readonly name: 'Post_authorId_idx_e47547ed';
-                  readonly prefix: 'Post_authorId_idx';
+                  readonly name: 'post_authorId_idx_e47547ed';
+                  readonly prefix: 'post_authorId_idx';
                   readonly columns: readonly ['authorId'];
                   readonly unique: false;
                 },
@@ -416,18 +416,18 @@ type ContractBase = Omit<
                 {
                   readonly source: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'Post';
+                    readonly tableName: 'post';
                     readonly columns: readonly ['authorId'];
                   };
                   readonly target: {
                     readonly namespaceId: 'public' & NamespaceId;
-                    readonly tableName: 'User';
+                    readonly tableName: 'user';
                     readonly columns: readonly ['id'];
                   };
                 },
               ];
             };
-            readonly User: {
+            readonly user: {
               columns: {
                 readonly createdAt: {
                   readonly dataType: 'pg/timestamptz';
@@ -489,8 +489,8 @@ type ContractBase = Omit<
   readonly target: 'postgres';
   readonly targetFamily: 'sql';
   readonly roots: {
-    readonly Post: { readonly namespace: 'public' & NamespaceId; readonly model: 'Post' };
-    readonly User: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
+    readonly post: { readonly namespace: 'public' & NamespaceId; readonly model: 'Post' };
+    readonly user: { readonly namespace: 'public' & NamespaceId; readonly model: 'User' };
   };
   readonly domain: {
     readonly namespaces: {
@@ -543,7 +543,7 @@ type ContractBase = Omit<
               };
             };
             readonly storage: {
-              readonly table: 'Post';
+              readonly table: 'post';
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly authorId: { readonly column: 'authorId' };
@@ -601,7 +601,7 @@ type ContractBase = Omit<
               };
             };
             readonly storage: {
-              readonly table: 'User';
+              readonly table: 'user';
               readonly namespaceId: 'public';
               readonly fields: {
                 readonly createdAt: { readonly column: 'createdAt' };
@@ -657,7 +657,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'Post';
+            readonly entry: 'post';
             readonly field: 'createdAt';
             readonly namespace: 'public';
           };
@@ -674,7 +674,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'Post';
+            readonly entry: 'post';
             readonly field: 'updatedAt';
             readonly namespace: 'public';
           };
@@ -686,7 +686,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'User';
+            readonly entry: 'user';
             readonly field: 'createdAt';
             readonly namespace: 'public';
           };
@@ -703,7 +703,7 @@ type ContractBase = Omit<
             readonly params: { readonly precision: 3 };
           };
           readonly ref: {
-            readonly entry: 'User';
+            readonly entry: 'user';
             readonly field: 'updatedAt';
             readonly namespace: 'public';
           };

@@ -1,0 +1,509 @@
+[
+  {
+    "id": "renameTable.User",
+    "label": "Rename table \"User\" to \"user\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"User\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"User\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"User\""
+        }
+      },
+      {
+        "description": "ensure table \"user\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"user\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename table \"User\" to \"user\"",
+        "sql": "ALTER TABLE \"public\".\"User\" RENAME TO \"user\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"user\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"user\""
+        }
+      },
+      {
+        "description": "verify table \"User\" no longer exists",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"User\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"User\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "primaryKey.public.user.User_pkey.rename",
+    "label": "Rename primary key \"User_pkey\" to \"user_pkey\" on \"user\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "primaryKey",
+        "name": "user_pkey",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"User_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_pkey",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"User_pkey\" on \"user\""
+        }
+      },
+      {
+        "description": "ensure constraint \"user_pkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_pkey",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"user_pkey\" on \"user\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename primary key \"User_pkey\" to \"user_pkey\"",
+        "sql": "ALTER TABLE \"public\".\"user\" RENAME CONSTRAINT \"User_pkey\" TO \"user_pkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_pkey",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"user_pkey\" on \"user\""
+        }
+      },
+      {
+        "description": "verify constraint \"User_pkey\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_pkey",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"User_pkey\" on \"user\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "unique.public.user.User_email_key.rename",
+    "label": "Rename unique constraint \"User_email_key\" to \"user_email_key\" on \"user\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "unique",
+        "name": "user_email_key",
+        "table": "user"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"User_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_email_key",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"User_email_key\" on \"user\""
+        }
+      },
+      {
+        "description": "ensure constraint \"user_email_key\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_email_key",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"user_email_key\" on \"user\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename unique constraint \"User_email_key\" to \"user_email_key\"",
+        "sql": "ALTER TABLE \"public\".\"user\" RENAME CONSTRAINT \"User_email_key\" TO \"user_email_key\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"user_email_key\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "user_email_key",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"user_email_key\" on \"user\""
+        }
+      },
+      {
+        "description": "verify constraint \"User_email_key\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "User_email_key",
+          "public",
+          "\"public\".\"user\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"User_email_key\" on \"user\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "renameTable.Post",
+    "label": "Rename table \"Post\" to \"post\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "post"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"Post\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"Post\""
+        }
+      },
+      {
+        "description": "ensure table \"post\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"post\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename table \"Post\" to \"post\"",
+        "sql": "ALTER TABLE \"public\".\"Post\" RENAME TO \"post\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"post\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"post\""
+        }
+      },
+      {
+        "description": "verify table \"Post\" no longer exists",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"Post\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "primaryKey.public.post.Post_pkey.rename",
+    "label": "Rename primary key \"Post_pkey\" to \"post_pkey\" on \"post\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "primaryKey",
+        "name": "post_pkey",
+        "table": "post"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Post_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Post_pkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Post_pkey\" on \"post\""
+        }
+      },
+      {
+        "description": "ensure constraint \"post_pkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "post_pkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"post_pkey\" on \"post\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename primary key \"Post_pkey\" to \"post_pkey\"",
+        "sql": "ALTER TABLE \"public\".\"post\" RENAME CONSTRAINT \"Post_pkey\" TO \"post_pkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"post_pkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "post_pkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"post_pkey\" on \"post\""
+        }
+      },
+      {
+        "description": "verify constraint \"Post_pkey\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Post_pkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Post_pkey\" on \"post\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.public.post.Post_authorId_fkey.rename",
+    "label": "Rename foreign key \"Post_authorId_fkey\" to \"post_authorId_fkey\" on \"post\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "post_authorId_fkey",
+        "table": "post"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"Post_authorId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Post_authorId_fkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"Post_authorId_fkey\" on \"post\""
+        }
+      },
+      {
+        "description": "ensure constraint \"post_authorId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "post_authorId_fkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"post_authorId_fkey\" on \"post\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename foreign key \"Post_authorId_fkey\" to \"post_authorId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"post\" RENAME CONSTRAINT \"Post_authorId_fkey\" TO \"post_authorId_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"post_authorId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "post_authorId_fkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"post_authorId_fkey\" on \"post\""
+        }
+      },
+      {
+        "description": "verify constraint \"Post_authorId_fkey\" no longer exists",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "Post_authorId_fkey",
+          "public",
+          "\"public\".\"post\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"Post_authorId_fkey\" on \"post\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "index.public.post.Post_authorId_idx_e47547ed.rename",
+    "label": "Rename index \"Post_authorId_idx_e47547ed\" to \"post_authorId_idx_e47547ed\" on \"post\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "post_authorId_idx_e47547ed",
+        "table": "post"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"Post_authorId_idx_e47547ed\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Post_authorId_idx_e47547ed\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "index \"Post_authorId_idx_e47547ed\""
+        }
+      },
+      {
+        "description": "ensure index \"post_authorId_idx_e47547ed\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"post_authorId_idx_e47547ed\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"post_authorId_idx_e47547ed\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "rename index \"Post_authorId_idx_e47547ed\" to \"post_authorId_idx_e47547ed\"",
+        "sql": "ALTER INDEX \"public\".\"Post_authorId_idx_e47547ed\" RENAME TO \"post_authorId_idx_e47547ed\"",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"post_authorId_idx_e47547ed\" exists",
+        "sql": "SELECT (to_regclass($1)) IS NOT NULL AS \"result\"",
+        "params": [
+          "\"public\".\"post_authorId_idx_e47547ed\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "index \"post_authorId_idx_e47547ed\""
+        }
+      },
+      {
+        "description": "verify index \"Post_authorId_idx_e47547ed\" no longer exists",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"Post_authorId_idx_e47547ed\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"Post_authorId_idx_e47547ed\""
+        }
+      }
+    ]
+  }
+]

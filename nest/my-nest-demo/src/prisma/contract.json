@@ -4,11 +4,11 @@
   "target": "postgres",
   "profileHash": "3916f444a8a17ad749191acf9e08dad97d1a327b88c2f1d45d12f240296aa8b2",
   "roots": {
-    "Post": {
+    "post": {
       "model": "Post",
       "namespace": "public"
     },
-    "User": {
+    "user": {
       "model": "User",
       "namespace": "public"
     }
@@ -108,7 +108,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "Post"
+              "table": "post"
             }
           },
           "User": {
@@ -201,7 +201,7 @@
                 }
               },
               "namespaceId": "public",
-              "table": "User"
+              "table": "user"
             }
           }
         }
@@ -213,7 +213,7 @@
       "public": {
         "entries": {
           "table": {
-            "Post": {
+            "post": {
               "columns": {
                 "authorId": {
                   "codecId": "pg/int4@1",
@@ -263,21 +263,21 @@
               "foreignKeys": [
                 {
                   "index": {
-                    "name": "Post_authorId_idx_e47547ed"
+                    "name": "post_authorId_idx_e47547ed"
                   },
                   "source": {
                     "columns": [
                       "authorId"
                     ],
                     "namespaceId": "public",
-                    "tableName": "Post"
+                    "tableName": "post"
                   },
                   "target": {
                     "columns": [
                       "id"
                     ],
                     "namespaceId": "public",
-                    "tableName": "User"
+                    "tableName": "user"
                   }
                 }
               ],
@@ -286,8 +286,8 @@
                   "columns": [
                     "authorId"
                   ],
-                  "name": "Post_authorId_idx_e47547ed",
-                  "prefix": "Post_authorId_idx",
+                  "name": "post_authorId_idx_e47547ed",
+                  "prefix": "post_authorId_idx",
                   "unique": false
                 }
               ],
@@ -298,7 +298,7 @@
               },
               "uniques": []
             },
-            "User": {
+            "user": {
               "columns": {
                 "createdAt": {
                   "codecId": "pg/timestamptz-date@1",
@@ -366,10 +366,10 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "920a87b50729a867e21706dd0fa5c3739e273a84ed89eb2f3525633b2d6ef85c"
+    "storageHash": "366a2694b6ee4aa28c995a4608f4bef9bd64b90dbe530b8cdd060be7b756c047"
   },
   "execution": {
-    "executionHash": "0ff7f5c55037616d53a67c7c581c1178658b41c7a674a85dd59fc3b8f9dd8a49",
+    "executionHash": "7125bdcf63d80e9c87608f0271ad13900e24e05cab2a6119e1bfa3ce6301a5ba",
     "mutations": {
       "defaults": [
         {
@@ -381,7 +381,7 @@
             }
           },
           "ref": {
-            "entry": "Post",
+            "entry": "post",
             "field": "createdAt",
             "namespace": "public"
           }
@@ -402,7 +402,7 @@
             }
           },
           "ref": {
-            "entry": "Post",
+            "entry": "post",
             "field": "updatedAt",
             "namespace": "public"
           }
@@ -416,7 +416,7 @@
             }
           },
           "ref": {
-            "entry": "User",
+            "entry": "user",
             "field": "createdAt",
             "namespace": "public"
           }
@@ -437,7 +437,7 @@
             }
           },
           "ref": {
-            "entry": "User",
+            "entry": "user",
             "field": "updatedAt",
             "namespace": "public"
           }
