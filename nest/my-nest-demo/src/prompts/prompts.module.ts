@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PromptsController } from './prompts.controller.js';
-import { PromptsService } from './prompts.service.js';
+import { PromptsController } from './prompts.controller';
+import { PromptsService } from './prompts.service';
 
 @Module({
   controllers: [PromptsController],

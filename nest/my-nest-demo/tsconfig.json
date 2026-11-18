@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "module": "preserve",
-    "moduleResolution": "bundler",
-    "resolvePackageJsonExports": true,
+    "module": "commonjs",
+    "moduleResolution": "node10",
     "esModuleInterop": true,
     "isolatedModules": true,
     "declaration": false,
@@ -24,5 +23,6 @@
     "types": [
       "node"
     ]
-  }
+  },
+  "exclude": ["node_modules", "dist", "migrations", "prisma.config.ts", "src/prisma/db.ts"]
 }

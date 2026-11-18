@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { FunctionCallingController } from './function-calling.controller.js';
-import { FunctionCallingService } from './function-calling.service.js';
+import { FunctionCallingController } from './function-calling.controller';
+import { FunctionCallingService } from './function-calling.service';
 
 @Module({
   controllers: [FunctionCallingController],
